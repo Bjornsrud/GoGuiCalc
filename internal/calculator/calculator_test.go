@@ -70,3 +70,31 @@ func TestPressDotOnlyAllowedOnce(t *testing.T) {
 		t.Fatalf("Display() with second dot = %q, want %q", got, want)
 	}
 }
+
+func TestPressClearResetsDisplayToZero(t *testing.T) {
+	calc := NewCalculator()
+
+	calc.PressDigit(4)
+	calc.PressDigit(2)
+	calc.PressClear()
+
+	got := calc.Display()
+	want := "0"
+
+	if got != want {
+		t.Fatalf("PressClear should reset display to %q, got %q", want, got)
+	}
+}
+
+func TestPressClearOnZeroLeavesZero(t *testing.T) {
+	calc := NewCalculator()
+
+	calc.PressClear()
+
+	got := calc.Display()
+	want := "0"
+
+	if got != want {
+		t.Fatalf("PressClear on initial zero should keep display as %q, got %q", want, got)
+	}
+}
