@@ -177,3 +177,27 @@ func TestPressDigitAfterOperatorOverwritesDisplay(t *testing.T) {
 	}
 }
 
+func TestPressOperatorEvaluatesPreviousOperator(t *testing.T) {
+	calc := NewCalculator()
+
+	calc.PressDigit(2)
+	calc.PressOperator("+")
+	calc.PressDigit(3)
+	calc.PressOperator("+")
+
+	gotAcc := calc.accumulator
+	wantAcc := 5.0
+
+	if gotAcc != wantAcc {
+		t.Fatalf("accumulator after evaluating 2 + 3 = %v, want %v", gotAcc, wantAcc)
+	}
+
+	if calc.operator != "+" {
+		t.Fatalf("operator = %q, want %q", calc.operator, "+")
+	}
+
+	if calc.Display() != "5" {
+		t.Fatalf("display = %q, want %q", calc.Display(), "5")
+	}
+}
+
