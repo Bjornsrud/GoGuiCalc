@@ -25,6 +25,13 @@ func (c *Calculator) PressDigit(d int) {
 
 	digit := string('0' + rune(d))
 
+
+	if c.overwrite {
+		c.display = digit
+		c.overwrite = false
+		return
+	}
+
 	if c.display == "0" {
 		c.display = digit
 		return
