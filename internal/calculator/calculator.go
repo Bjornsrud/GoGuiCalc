@@ -6,7 +6,7 @@ type Calculator struct {
 
 func NewCalculator() *Calculator {
 	return &Calculator{
-		display: "",
+		display: "0",
 	}
 }
 
@@ -15,7 +15,14 @@ func (c *Calculator) PressDigit(d int) {
 		return
 	}
 
-	c.display += string('0' + rune(d))
+	digit := string('0' + rune(d))
+
+	if c.display == "0" {
+		c.display = digit
+		return
+	}
+
+	c.display += digit
 }
 
 func (c *Calculator) Display() string {
