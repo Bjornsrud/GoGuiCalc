@@ -138,3 +138,24 @@ func TestValueParsesZero(t *testing.T) {
 		t.Fatalf("Value() for zero = %v, want %v", got, want)
 	}
 }
+
+func TestPressOperatorStoresAccumulatorAndOperator(t *testing.T) {
+	calc := NewCalculator()
+
+	calc.PressDigit(4)
+	calc.PressDigit(2)
+
+	calc.PressOperator("+")
+
+	if calc.accumulator != 42 {
+		t.Fatalf("accumulator = %v, want 42", calc.accumulator)
+	}
+
+	if calc.operator != "+" {
+		t.Fatalf("operator = %q, want \"+\"", calc.operator)
+	}
+
+	if !calc.overwrite {
+		t.Fatalf("overwrite should be true after pressing operator")
+	}
+}

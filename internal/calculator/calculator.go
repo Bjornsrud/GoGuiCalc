@@ -7,6 +7,9 @@ import (
 
 type Calculator struct {
 	display string
+	accumulator float64
+	operator string
+	overwrite bool
 }
 
 func NewCalculator() *Calculator {
@@ -53,4 +56,8 @@ func (c *Calculator) Value() float64 {
 		return 0
 	}
 	return v
+}
+
+func (c *Calculator) PressOperator(o string) {
+	return
 }
