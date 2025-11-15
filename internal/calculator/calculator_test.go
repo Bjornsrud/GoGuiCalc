@@ -98,3 +98,43 @@ func TestPressClearOnZeroLeavesZero(t *testing.T) {
 		t.Fatalf("PressClear on initial zero should keep display as %q, got %q", want, got)
 	}
 }
+
+func TestValueParsesIntegerDisplay(t *testing.T) {
+	calc := NewCalculator()
+
+	calc.PressDigit(1)
+	calc.PressDigit(2)
+
+	got := calc.Value()
+	want := 12.0
+
+	if got != want {
+		t.Fatalf("Value() = %v, want %v", got, want)
+	}
+}
+
+func TestValueParsesDecimalDisplay(t *testing.T) {
+	calc := NewCalculator()
+
+	calc.PressDigit(3)
+	calc.PressDot()
+	calc.PressDigit(5)
+
+	got := calc.Value()
+	want := 3.5
+
+	if got != want {
+		t.Fatalf("Value() = %v, want %v", got, want)
+	}
+}
+
+func TestValueParsesZero(t *testing.T) {
+	calc := NewCalculator()
+
+	got := calc.Value()
+	want := 0.0
+
+	if got != want {
+		t.Fatalf("Value() for zero = %v, want %v", got, want)
+	}
+}

@@ -43,3 +43,7 @@ func (c *Calculator) PressClear() {
 func (c *Calculator) Display() string {
 	return c.display
 }
+
+func (c *Calculator) Value() float64 {
+    return 0
+}
