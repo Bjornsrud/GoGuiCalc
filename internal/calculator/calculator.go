@@ -59,5 +59,8 @@ func (c *Calculator) Value() float64 {
 }
 
 func (c *Calculator) PressOperator(o string) {
-	return
+	c.accumulator = c.Value()
+	c.operator = o
+	c.overwrite = true
+
 }
