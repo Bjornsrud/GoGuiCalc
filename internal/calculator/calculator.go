@@ -1,5 +1,7 @@
 package calculator
 
+import "strings"
+
 type Calculator struct {
 	display string
 }
@@ -23,6 +25,14 @@ func (c *Calculator) PressDigit(d int) {
 	}
 
 	c.display += digit
+}
+
+func (c *Calculator) PressDot() {
+	if strings.Contains(c.display, ".") {
+		return
+	}
+
+	c.display += "."
 }
 
 func (c *Calculator) Display() string {
