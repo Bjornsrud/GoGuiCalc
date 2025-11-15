@@ -35,7 +35,9 @@ func (c *Calculator) PressDot() {
 	c.display += "."
 }
 
-func (c *Calculator) PressClear() { return }
+func (c *Calculator) PressClear() { 
+	c.display = "0"
+}
 
 
 func (c *Calculator) Display() string {
