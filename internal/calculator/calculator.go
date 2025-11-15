@@ -1,6 +1,9 @@
 package calculator
 
-import "strings"
+import (
+	"strconv"
+	"strings"
+)
 
 type Calculator struct {
 	display string
@@ -45,5 +48,9 @@ func (c *Calculator) Display() string {
 }
 
 func (c *Calculator) Value() float64 {
-    return 0
+    v, err := strconv.ParseFloat(c.display, 64)
+	if err != nil {
+		return 0
+	}
+	return v
 }
