@@ -159,3 +159,21 @@ func TestPressOperatorStoresAccumulatorAndOperator(t *testing.T) {
 		t.Fatalf("overwrite should be true after pressing operator")
 	}
 }
+
+func TestPressDigitAfterOperatorOverwritesDisplay(t *testing.T) {
+	calc := NewCalculator()
+
+	calc.PressDigit(4)
+	calc.PressDigit(2)
+	calc.PressOperator("+")
+
+	calc.PressDigit(3)
+
+	got := calc.Display()
+	want := "3"
+
+	if got != want {
+		t.Fatalf("Display() after operator and digit = %q, want %q", got, want)
+	}
+}
+
