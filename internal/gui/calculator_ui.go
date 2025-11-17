@@ -50,13 +50,12 @@ func NewCalculatorWindow(a fyne.App) fyne.Window {
 		)
 	}
 
-	// Operator-knapper
-	op := func(symbol string) *fyne.Container {
+	op := func(label string, opSymbol string) *fyne.Container {
 		return makeColorButton(
-			symbol,
+			label,
 			color.RGBA{70, 70, 70, 255}, // Lysere grå
 			func() {
-				calc.PressOperator(symbol)
+				calc.PressOperator(opSymbol)
 				display.Text = calc.Display()
 				display.Refresh()
 			},
@@ -100,25 +99,25 @@ func NewCalculatorWindow(a fyne.App) fyne.Window {
 		digit(7),
 		digit(8),
 		digit(9),
-		op("/"),
+		op("/", "/"),
 
 		// Rad 2
 		digit(4),
 		digit(5),
 		digit(6),
-		op("x"),
+		op("x", "*"),
 
 		// Rad 3
 		digit(1),
 		digit(2),
 		digit(3),
-		op("-"),
+		op("-", "-"),
 
 		// Rad 4
 		digit(0),
 		dotButton,
 		equalsButton,
-		op("+"),
+		op("+", "+"),
 	)
 
 	w.SetContent(container.NewVBox(
