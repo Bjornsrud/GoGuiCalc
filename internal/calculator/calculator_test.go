@@ -227,12 +227,10 @@ func TestPressEqualsClearsOperatorAndSetsOverwrite(t *testing.T) {
 	calc.PressDigit(3)
 	calc.PressEquals()
 
-	// Etter = skal operator være tom
 	if calc.operator != "" {
 		t.Fatalf("operator after Equals = %q, want empty", calc.operator)
 	}
 
-	// Neste digit skal overwrite resultatet
 	calc.PressDigit(4)
 
 	got := calc.Display()
@@ -242,5 +240,54 @@ func TestPressEqualsClearsOperatorAndSetsOverwrite(t *testing.T) {
 		t.Fatalf("Display() after Equals and then digit = %q, want %q", got, want)
 	}
 }
+
+func TestPressEqualsCanBeRepeatedForAddition(t *testing.T) {
+	calc := NewCalculator()
+
+	calc.PressDigit(2)
+	calc.PressOperator("+")
+	calc.PressDigit(3)
+	calc.PressEquals()
+
+	if calc.Display() != "5" {
+		t.Fatalf("after first Equals, display = %q, want %q", calc.Display(), "5")
+	}
+
+
+	calc.PressEquals()
+	if calc.Display() != "8" {
+		t.Fatalf("after second Equals, display = %q, want %q", calc.Display(), "8")
+	}
+
+	// and another =
+	calc.PressEquals()
+	if calc.Display() != "11" {
+		t.Fatalf("after third Equals, display = %q, want %q", calc.Display(), "11")
+	}
+}
+
+func TestPressEqualsCanBeRepeatedForSubtraction(t *testing.T) {
+	calc := NewCalculator()
+
+	calc.PressDigit(2)
+	calc.PressOperator("-")
+	calc.PressDigit(3)
+	calc.PressEquals()
+
+	if calc.Display() != "-1" {
+		t.Fatalf("after first Equals, display = %q, want %q", calc.Display(), "-1")
+	}
+
+	calc.PressEquals()
+	if calc.Display() != "-4" {
+		t.Fatalf("after second Equals, display = %q, want %q", calc.Display(), "-4")
+	}
+
+	calc.PressEquals()
+	if calc.Display() != "7" {
+		t.Fatalf("after third Equals, display = %q, want %q", calc.Display(), "-7")
+	}
+}
+
 
 
