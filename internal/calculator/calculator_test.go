@@ -284,7 +284,7 @@ func TestPressEqualsCanBeRepeatedForSubtraction(t *testing.T) {
 	}
 
 	calc.PressEquals()
-	if calc.Display() != "7" {
+	if calc.Display() != "-7" {
 		t.Fatalf("after third Equals, display = %q, want %q", calc.Display(), "-7")
 	}
 }

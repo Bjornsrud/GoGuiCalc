@@ -10,6 +10,8 @@ type Calculator struct {
 	accumulator float64
 	operator string
 	overwrite bool
+	lastOperator string
+	lastOperand  float64
 }
 
 func NewCalculator() *Calculator {
@@ -91,24 +93,46 @@ func (c *Calculator) PressOperator(o string) {
 }
 
 func (c *Calculator) PressEquals() {
-	if c.operator == "" {
+	current := c.Value()
+
+	// Første gang vi trykker "=", bruker vi pending operator
+	if c.operator != "" {
+		switch c.operator {
+		case "+":
+			c.accumulator += current
+		case "-":
+			c.accumulator -= current
+		case "*":
+			c.accumulator *= current
+		case "/":
+			c.accumulator /= current
+		}
+
+		// Husk hva vi gjorde, slik at vi kan gjenta det
+		c.lastOperator = c.operator
+		c.lastOperand = current
+
+		c.operator = ""
+	} else if c.lastOperator != "" {
+		// Ingen pending operator, men vi har en tidligere "=" operasjon
+		c.accumulator = current
+
+		switch c.lastOperator {
+		case "+":
+			c.accumulator += c.lastOperand
+		case "-":
+			c.accumulator -= c.lastOperand
+		case "*":
+			c.accumulator *= c.lastOperand
+		case "/":
+			c.accumulator /= c.lastOperand
+		}
+	} else {
+		// Ingen operatør og ingen historikk: gjør ingenting
 		return
 	}
 
-	current := c.Value()
-
-	switch c.operator {
-	case "+":
-		c.accumulator += current
-	case "-":
-		c.accumulator -= current
-	case "*":
-		c.accumulator *= current
-	case "/":
-		c.accumulator /= current
-	}
-
 	c.display = strconv.FormatFloat(c.accumulator, 'f', -1, 64)
-	c.operator = ""
 	c.overwrite = true
 }
+
