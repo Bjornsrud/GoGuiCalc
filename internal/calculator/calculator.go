@@ -85,8 +85,6 @@ func (c *Calculator) PressOperator(o string) {
 		}
 	}
 
-	
-
 	c.display = strconv.FormatFloat(c.accumulator, 'f', -1, 64)
 	c.operator = o
 	c.overwrite = true
@@ -95,7 +93,7 @@ func (c *Calculator) PressOperator(o string) {
 func (c *Calculator) PressEquals() {
 	current := c.Value()
 
-	// Første gang vi trykker "=", bruker vi pending operator
+
 	if c.operator != "" {
 		switch c.operator {
 		case "+":
@@ -105,16 +103,19 @@ func (c *Calculator) PressEquals() {
 		case "*":
 			c.accumulator *= current
 		case "/":
-			c.accumulator /= current
+			if current == 0 {
+        		c.display = "Error"
+        		c.operator = ""
+        		c.lastOperator = ""
+        		c.overwrite = true
+        		return
+    		}
+    		c.accumulator /= current
 		}
-
-		// Husk hva vi gjorde, slik at vi kan gjenta det
 		c.lastOperator = c.operator
 		c.lastOperand = current
-
 		c.operator = ""
 	} else if c.lastOperator != "" {
-		// Ingen pending operator, men vi har en tidligere "=" operasjon
 		c.accumulator = current
 
 		switch c.lastOperator {
@@ -125,10 +126,17 @@ func (c *Calculator) PressEquals() {
 		case "*":
 			c.accumulator *= c.lastOperand
 		case "/":
-			c.accumulator /= c.lastOperand
+   			if c.lastOperand == 0 {
+        		c.display = "Error"
+        		c.operator = ""
+        		c.lastOperator = ""
+        		c.overwrite = true
+        		return
+    		}
+    		c.accumulator /= c.lastOperand
 		}
 	} else {
-		// Ingen operatør og ingen historikk: gjør ingenting
+
 		return
 	}
 
