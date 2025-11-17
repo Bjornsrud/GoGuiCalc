@@ -66,8 +66,24 @@ func (c *Calculator) Value() float64 {
 }
 
 func (c *Calculator) PressOperator(o string) {
-	c.accumulator = c.Value()
+	current := c.Value()
+
+	if c.operator == "" {
+		c.accumulator = current
+	} else {
+		switch c.operator {
+		case "+":
+			c.accumulator += current
+		case "-":
+			c.accumulator -= current
+		case "*":
+			c.accumulator *= current
+		case "/":
+			c.accumulator /= current
+		}
+	}
+
+	c.display = strconv.FormatFloat(c.accumulator, 'f', -1, 64)
 	c.operator = o
 	c.overwrite = true
-
 }
