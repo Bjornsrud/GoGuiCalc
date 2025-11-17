@@ -201,3 +201,46 @@ func TestPressOperatorEvaluatesPreviousOperator(t *testing.T) {
 	}
 }
 
+func TestPressEqualsEvaluatesPendingOperation(t *testing.T) {
+	calc := NewCalculator()
+
+	// 2 + 3 =
+	calc.PressDigit(2)
+	calc.PressOperator("+")
+	calc.PressDigit(3)
+	calc.PressEquals()
+
+	got := calc.Display()
+	want := "5"
+
+	if got != want {
+		t.Fatalf("Display() after 2 + 3 = should be %q, got %q", want, got)
+	}
+}
+
+func TestPressEqualsClearsOperatorAndSetsOverwrite(t *testing.T) {
+	calc := NewCalculator()
+
+	// 2 + 3 =
+	calc.PressDigit(2)
+	calc.PressOperator("+")
+	calc.PressDigit(3)
+	calc.PressEquals()
+
+	// Etter = skal operator være tom
+	if calc.operator != "" {
+		t.Fatalf("operator after Equals = %q, want empty", calc.operator)
+	}
+
+	// Neste digit skal overwrite resultatet
+	calc.PressDigit(4)
+
+	got := calc.Display()
+	want := "4"
+
+	if got != want {
+		t.Fatalf("Display() after Equals and then digit = %q, want %q", got, want)
+	}
+}
+
+

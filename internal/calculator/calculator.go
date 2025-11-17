@@ -83,7 +83,13 @@ func (c *Calculator) PressOperator(o string) {
 		}
 	}
 
+	
+
 	c.display = strconv.FormatFloat(c.accumulator, 'f', -1, 64)
 	c.operator = o
 	c.overwrite = true
+}
+
+func (c *Calculator) PressEquals() {
+	return
 }
