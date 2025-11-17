@@ -341,6 +341,18 @@ func TestPressEqualsCanBeRepeatedForDivision(t *testing.T) {
 	}
 }
 
+func TestDivisionByZeroShowsError(t *testing.T) {
+	calc := NewCalculator()
+
+	calc.PressDigit(5)
+	calc.PressOperator("/")
+	calc.PressDigit(0)
+	calc.PressEquals()
+
+	if calc.Display() != "Error" {
+		t.Fatalf("division by zero: display = %q, want %q", calc.Display(), "Error")
+	}
+}
 
 
 
