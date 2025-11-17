@@ -6,10 +6,10 @@ import (
 )
 
 type Calculator struct {
-	display string
-	accumulator float64
-	operator string
-	overwrite bool
+	display      string
+	accumulator  float64
+	operator     string
+	overwrite    bool
 	lastOperator string
 	lastOperand  float64
 }
@@ -26,7 +26,6 @@ func (c *Calculator) PressDigit(d int) {
 	}
 
 	digit := string('0' + rune(d))
-
 
 	if c.overwrite {
 		c.display = digit
@@ -50,17 +49,18 @@ func (c *Calculator) PressDot() {
 	c.display += "."
 }
 
-func (c *Calculator) PressClear() { 
+func (c *Calculator) PressClear() {
 	c.display = "0"
+	c.accumulator = 0
+	c.operator = ""
 }
-
 
 func (c *Calculator) Display() string {
 	return c.display
 }
 
 func (c *Calculator) Value() float64 {
-    v, err := strconv.ParseFloat(c.display, 64)
+	v, err := strconv.ParseFloat(c.display, 64)
 	if err != nil {
 		return 0
 	}
@@ -93,7 +93,6 @@ func (c *Calculator) PressOperator(o string) {
 func (c *Calculator) PressEquals() {
 	current := c.Value()
 
-
 	if c.operator != "" {
 		switch c.operator {
 		case "+":
@@ -104,13 +103,13 @@ func (c *Calculator) PressEquals() {
 			c.accumulator *= current
 		case "/":
 			if current == 0 {
-        		c.display = "Error"
-        		c.operator = ""
-        		c.lastOperator = ""
-        		c.overwrite = true
-        		return
-    		}
-    		c.accumulator /= current
+				c.display = "Error"
+				c.operator = ""
+				c.lastOperator = ""
+				c.overwrite = true
+				return
+			}
+			c.accumulator /= current
 		}
 		c.lastOperator = c.operator
 		c.lastOperand = current
@@ -126,14 +125,14 @@ func (c *Calculator) PressEquals() {
 		case "*":
 			c.accumulator *= c.lastOperand
 		case "/":
-   			if c.lastOperand == 0 {
-        		c.display = "Error"
-        		c.operator = ""
-        		c.lastOperator = ""
-        		c.overwrite = true
-        		return
-    		}
-    		c.accumulator /= c.lastOperand
+			if c.lastOperand == 0 {
+				c.display = "Error"
+				c.operator = ""
+				c.lastOperator = ""
+				c.overwrite = true
+				return
+			}
+			c.accumulator /= c.lastOperand
 		}
 	} else {
 
@@ -143,4 +142,3 @@ func (c *Calculator) PressEquals() {
 	c.display = strconv.FormatFloat(c.accumulator, 'f', -1, 64)
 	c.overwrite = true
 }
-

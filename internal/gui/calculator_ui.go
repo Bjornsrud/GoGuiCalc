@@ -38,7 +38,7 @@ func NewCalculatorWindow(a fyne.App) fyne.Window {
 	digit := func(n int) *fyne.Container {
 		return makeColorButton(
 			fmt.Sprintf("%d", n),
-			color.RGBA{50, 50, 50, 255}, 
+			color.RGBA{50, 50, 50, 255},
 			func() {
 				calc.PressDigit(n)
 				display.Text = calc.Display()
@@ -50,7 +50,7 @@ func NewCalculatorWindow(a fyne.App) fyne.Window {
 	op := func(label string, opSymbol string) *fyne.Container {
 		return makeColorButton(
 			label,
-			color.RGBA{70, 70, 70, 255}, 
+			color.RGBA{70, 70, 70, 255},
 			func() {
 				calc.PressOperator(opSymbol)
 				display.Text = calc.Display()
@@ -61,7 +61,7 @@ func NewCalculatorWindow(a fyne.App) fyne.Window {
 
 	dotButton := makeColorButton(
 		".",
-		color.RGBA{50, 50, 50, 255}, 
+		color.RGBA{50, 50, 50, 255},
 		func() {
 			calc.PressDot()
 			display.Text = calc.Display()
@@ -71,7 +71,7 @@ func NewCalculatorWindow(a fyne.App) fyne.Window {
 
 	equalsButton := makeColorButton(
 		"=",
-		color.RGBA{60, 100, 60, 255}, 
+		color.RGBA{60, 100, 60, 255},
 		func() {
 			calc.PressEquals()
 			display.Text = calc.Display()
@@ -81,7 +81,7 @@ func NewCalculatorWindow(a fyne.App) fyne.Window {
 
 	clearButton := makeColorButton(
 		"Clear",
-		color.RGBA{140, 80, 10, 255}, 
+		color.RGBA{140, 80, 10, 255},
 		func() {
 			calc.PressClear()
 			display.Text = calc.Display()
@@ -91,7 +91,7 @@ func NewCalculatorWindow(a fyne.App) fyne.Window {
 
 	aboutButton := makeColorButton(
 		"About",
-		color.RGBA{90, 90, 90, 255}, 
+		color.RGBA{90, 90, 90, 255},
 		func() {
 			display.Text = "Bjornsrud@github"
 			display.Refresh()
@@ -119,7 +119,6 @@ func NewCalculatorWindow(a fyne.App) fyne.Window {
 		equalsButton,
 		op("+", "+"),
 	)
-
 
 	headerRow := container.NewGridWithColumns(2,
 		clearButton,
