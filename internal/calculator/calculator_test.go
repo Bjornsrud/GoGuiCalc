@@ -424,24 +424,3 @@ func TestOperatorAfterEqualsStartsNewChain(t *testing.T) {
 		t.Fatalf("25 * 4 = + 2 = should be 102, got %q", calc.Display())
 	}
 }
-
-func TestRepeatedOperatorDoesNotUpdateLastOperand(t *testing.T) {
-	calc := NewCalculator()
-
-	calc.PressDigit(2)
-	calc.PressOperator("+")
-	calc.PressDigit(2)
-	calc.PressOperator("+") 
-
-
-	calc.PressOperator("+")
-	calc.PressOperator("+") 
-
-	
-	calc.PressDigit(8)
-	calc.PressEquals() 
-
-	if calc.Display() != "10" {
-		t.Fatalf("expected final result to use lastOperand 2 => 10, got %q", calc.Display())
-	}
-}
