@@ -14,16 +14,14 @@ import (
 
 func NewCalculatorWindow(a fyne.App) fyne.Window {
 	w := a.NewWindow("GoCalculate")
-	w.Resize(fyne.NewSize(250, 240))
+	w.Resize(fyne.NewSize(285, 240))
 
-	// Display som canvas.Text, så vi kan styre størrelse og farge
 	display := canvas.NewText("0", color.White)
 	display.TextSize = 32
 	display.Alignment = fyne.TextAlignTrailing
 
 	calc := calculator.NewCalculator()
 
-	// Generell factory for fargede knapper
 	makeColorButton := func(label string, bg color.Color, onTap func()) *fyne.Container {
 		txt := canvas.NewText(label, color.White)
 		txt.Alignment = fyne.TextAlignCenter
@@ -34,14 +32,13 @@ func NewCalculatorWindow(a fyne.App) fyne.Window {
 		btn := widget.NewButton("", onTap)
 		btn.Importance = widget.LowImportance
 
-		return container.NewMax(rect, btn, container.NewCenter(txt))
+		return container.NewStack(rect, btn, container.NewCenter(txt))
 	}
 
-	// Tallknapper
 	digit := func(n int) *fyne.Container {
 		return makeColorButton(
 			fmt.Sprintf("%d", n),
-			color.RGBA{50, 50, 50, 255}, // mørk grå
+			color.RGBA{50, 50, 50, 255}, 
 			func() {
 				calc.PressDigit(n)
 				display.Text = calc.Display()
@@ -53,7 +50,7 @@ func NewCalculatorWindow(a fyne.App) fyne.Window {
 	op := func(label string, opSymbol string) *fyne.Container {
 		return makeColorButton(
 			label,
-			color.RGBA{70, 70, 70, 255}, // Lysere grå
+			color.RGBA{70, 70, 70, 255}, 
 			func() {
 				calc.PressOperator(opSymbol)
 				display.Text = calc.Display()
@@ -62,10 +59,9 @@ func NewCalculatorWindow(a fyne.App) fyne.Window {
 		)
 	}
 
-	// Spesialknapper
 	dotButton := makeColorButton(
 		".",
-		color.RGBA{50, 50, 50, 255}, // samme som tall
+		color.RGBA{50, 50, 50, 255}, 
 		func() {
 			calc.PressDot()
 			display.Text = calc.Display()
@@ -75,7 +71,7 @@ func NewCalculatorWindow(a fyne.App) fyne.Window {
 
 	equalsButton := makeColorButton(
 		"=",
-		color.RGBA{60, 100, 60, 255}, // grønn
+		color.RGBA{60, 100, 60, 255}, 
 		func() {
 			calc.PressEquals()
 			display.Text = calc.Display()
@@ -85,7 +81,7 @@ func NewCalculatorWindow(a fyne.App) fyne.Window {
 
 	clearButton := makeColorButton(
 		"Clear",
-		color.RGBA{140, 80, 10, 255}, // orange
+		color.RGBA{140, 80, 10, 255}, 
 		func() {
 			calc.PressClear()
 			display.Text = calc.Display()
@@ -93,38 +89,47 @@ func NewCalculatorWindow(a fyne.App) fyne.Window {
 		},
 	)
 
-	// 4x4 grid med alle knapper
+	aboutButton := makeColorButton(
+		"About",
+		color.RGBA{90, 90, 90, 255}, 
+		func() {
+			display.Text = "Bjornsrud@github"
+			display.Refresh()
+		},
+	)
+
 	buttons := container.NewGridWithColumns(4,
-		// Rad 1
 		digit(7),
 		digit(8),
 		digit(9),
 		op("/", "/"),
 
-		// Rad 2
 		digit(4),
 		digit(5),
 		digit(6),
 		op("x", "*"),
 
-		// Rad 3
 		digit(1),
 		digit(2),
 		digit(3),
 		op("-", "-"),
 
-		// Rad 4
 		digit(0),
 		dotButton,
 		equalsButton,
 		op("+", "+"),
 	)
 
+
+	headerRow := container.NewGridWithColumns(2,
+		clearButton,
+		aboutButton,
+	)
+
 	w.SetContent(container.NewVBox(
 		display,
-		clearButton,
+		headerRow,
 		buttons,
 	))
-
 	return w
 }
