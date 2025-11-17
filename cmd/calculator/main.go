@@ -1,5 +1,13 @@
 package main
 
+import (
+	"fyne.io/fyne/v2/app"
+
+	"github.com/Bjornsrud/GoGuiCalc/internal/gui"
+)
+
 func main() {
-    // GUI will be initialized here later
+	a := app.New()
+	w := gui.NewCalculatorWindow(a)
+	w.ShowAndRun()
 }
