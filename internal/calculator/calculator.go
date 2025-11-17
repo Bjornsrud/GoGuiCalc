@@ -53,6 +53,9 @@ func (c *Calculator) PressClear() {
 	c.display = "0"
 	c.accumulator = 0
 	c.operator = ""
+	c.lastOperator = ""
+	c.lastOperand = 0
+	c.overwrite = false
 }
 
 func (c *Calculator) Display() string {
@@ -70,18 +73,54 @@ func (c *Calculator) Value() float64 {
 func (c *Calculator) PressOperator(o string) {
 	current := c.Value()
 
-	if c.operator == "" {
-		c.accumulator = current
+	if !c.overwrite {
+		if c.operator == "" {
+			c.accumulator = current
+		} else {
+			switch c.operator {
+			case "+":
+				c.accumulator += current
+			case "-":
+				c.accumulator -= current
+			case "*":
+				c.accumulator *= current
+			case "/":
+				if current == 0 {
+					c.display = "Error"
+					c.operator = ""
+					c.lastOperator = ""
+					c.overwrite = true
+					return
+				}
+				c.accumulator /= current
+			}
+		}
+
+		c.lastOperand = current
+		if c.operator != "" {
+			c.lastOperator = c.operator
+		} else {
+			c.lastOperator = o
+		}
 	} else {
-		switch c.operator {
-		case "+":
-			c.accumulator += current
-		case "-":
-			c.accumulator -= current
-		case "*":
-			c.accumulator *= current
-		case "/":
-			c.accumulator /= current
+		if c.operator != "" && c.lastOperator != "" {
+			switch c.lastOperator {
+			case "+":
+				c.accumulator += c.lastOperand
+			case "-":
+				c.accumulator -= c.lastOperand
+			case "*":
+				c.accumulator *= c.lastOperand
+			case "/":
+				if c.lastOperand == 0 {
+					c.display = "Error"
+					c.operator = ""
+					c.lastOperator = ""
+					c.overwrite = true
+					return
+				}
+				c.accumulator /= c.lastOperand
+			}
 		}
 	}
 

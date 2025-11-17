@@ -318,7 +318,6 @@ func TestPressEqualsCanBeRepeatedForMultiplication(t *testing.T) {
 func TestPressEqualsCanBeRepeatedForDivision(t *testing.T) {
 	calc := NewCalculator()
 
-	// 100 / 2 =
 	calc.PressDigit(1)
 	calc.PressDigit(0)
 	calc.PressDigit(0)
@@ -354,6 +353,95 @@ func TestDivisionByZeroShowsError(t *testing.T) {
 	}
 }
 
+func TestRepeatedOperatorUsesLastOperand(t *testing.T) {
+	calc := NewCalculator()
+
+	calc.PressDigit(2)
+	calc.PressOperator("+")
+	calc.PressDigit(2)
+	calc.PressOperator("+")
+
+	calc.PressOperator("+")
+	if calc.Display() != "6" {
+		t.Fatalf("after second +: display = %q, want %q", calc.Display(), "6")
+	}
+
+	calc.PressOperator("+") // +2 => 8
+	if calc.Display() != "8" {
+		t.Fatalf("after third +: display = %q, want %q", calc.Display(), "8")
+	}
+}
+
+func TestOperatorAfterEqualsDoesNotRepeatLastOperation(t *testing.T) {
+	calc := NewCalculator()
+
+	calc.PressDigit(2)
+	calc.PressDigit(5)
+	calc.PressOperator("*")
+	calc.PressDigit(4)
+	calc.PressEquals()
+
+	if calc.Display() != "100" {
+		t.Fatalf("after Equals: display = %q, want %q", calc.Display(), "100")
+	}
+
+	calc.PressOperator("/") 
+	if calc.Display() != "100" {
+		t.Fatalf("after pressing / following =: display = %q, want %q", calc.Display(), "100")
+	}
+}
+
+func TestOperatorChainingMultiplicationAndDivision(t *testing.T) {
+	calc := NewCalculator()
+
+	calc.PressDigit(2)
+	calc.PressDigit(5)
+	calc.PressOperator("*")
+	calc.PressDigit(4)
+	calc.PressOperator("/")
+	calc.PressDigit(2)
+	calc.PressEquals()
+
+	if calc.Display() != "50" {
+		t.Fatalf("25 * 4 / 2 = should be 50, got %q", calc.Display())
+	}
+}
+
+func TestOperatorAfterEqualsStartsNewChain(t *testing.T) {
+	calc := NewCalculator()
+
+	calc.PressDigit(2)
+	calc.PressDigit(5)
+	calc.PressOperator("*")
+	calc.PressDigit(4)
+	calc.PressEquals()   
+
+	calc.PressOperator("+")
+	calc.PressDigit(2)
+	calc.PressEquals()  
+
+	if calc.Display() != "102" {
+		t.Fatalf("25 * 4 = + 2 = should be 102, got %q", calc.Display())
+	}
+}
+
+func TestRepeatedOperatorDoesNotUpdateLastOperand(t *testing.T) {
+	calc := NewCalculator()
+
+	calc.PressDigit(2)
+	calc.PressOperator("+")
+	calc.PressDigit(2)
+	calc.PressOperator("+") 
 
 
+	calc.PressOperator("+")
+	calc.PressOperator("+") 
 
+	
+	calc.PressDigit(8)
+	calc.PressEquals() 
+
+	if calc.Display() != "10" {
+		t.Fatalf("expected final result to use lastOperand 2 => 10, got %q", calc.Display())
+	}
+}

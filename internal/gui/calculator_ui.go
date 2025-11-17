@@ -14,6 +14,7 @@ import (
 
 func NewCalculatorWindow(a fyne.App) fyne.Window {
 	w := a.NewWindow("GoCalculate")
+	w.SetIcon(resourceIconPng)
 	w.Resize(fyne.NewSize(285, 240))
 
 	display := canvas.NewText("0", color.White)
