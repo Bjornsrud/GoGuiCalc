@@ -289,5 +289,59 @@ func TestPressEqualsCanBeRepeatedForSubtraction(t *testing.T) {
 	}
 }
 
+func TestPressEqualsCanBeRepeatedForMultiplication(t *testing.T) {
+	calc := NewCalculator()
+
+	// 2 * 3 =
+	calc.PressDigit(2)
+	calc.PressOperator("*")
+	calc.PressDigit(3)
+	calc.PressEquals()
+
+	if calc.Display() != "6" {
+		t.Fatalf("after first Equals, display = %q, want %q", calc.Display(), "6")
+	}
+
+	// another =
+	calc.PressEquals()
+	if calc.Display() != "18" {
+		t.Fatalf("after second Equals, display = %q, want %q", calc.Display(), "18")
+	}
+
+	// and another =
+	calc.PressEquals()
+	if calc.Display() != "54" {
+		t.Fatalf("after third Equals, display = %q, want %q", calc.Display(), "54")
+	}
+}
+
+func TestPressEqualsCanBeRepeatedForDivision(t *testing.T) {
+	calc := NewCalculator()
+
+	// 100 / 2 =
+	calc.PressDigit(1)
+	calc.PressDigit(0)
+	calc.PressDigit(0)
+	calc.PressOperator("/")
+	calc.PressDigit(2)
+	calc.PressEquals()
+
+	if calc.Display() != "50" {
+		t.Fatalf("after first Equals, display = %q, want %q", calc.Display(), "50")
+	}
+
+	calc.PressEquals()
+	if calc.Display() != "25" {
+		t.Fatalf("after second Equals, display = %q, want %q", calc.Display(), "25")
+	}
+
+	calc.PressEquals()
+	if calc.Display() != "12.5" {
+		t.Fatalf("after third Equals, display = %q, want %q", calc.Display(), "12.5")
+	}
+}
+
+
+
 
 
