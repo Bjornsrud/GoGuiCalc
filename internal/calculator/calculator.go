@@ -91,5 +91,24 @@ func (c *Calculator) PressOperator(o string) {
 }
 
 func (c *Calculator) PressEquals() {
-	return
+	if c.operator == "" {
+		return
+	}
+
+	current := c.Value()
+
+	switch c.operator {
+	case "+":
+		c.accumulator += current
+	case "-":
+		c.accumulator -= current
+	case "*":
+		c.accumulator *= current
+	case "/":
+		c.accumulator /= current
+	}
+
+	c.display = strconv.FormatFloat(c.accumulator, 'f', -1, 64)
+	c.operator = ""
+	c.overwrite = true
 }
