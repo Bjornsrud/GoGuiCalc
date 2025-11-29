@@ -38,3 +38,5 @@ require (
 	golang.org/x/text v0.22.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
+
+replace github.com/go-gl/gl => github.com/go-gl/gl v0.0.0-20211210172815-726fda9656d6
