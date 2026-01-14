@@ -3,7 +3,7 @@
 GoGuiCalc is a simple graphical calculator written in Go using the Fyne GUI toolkit.
 The project was created as a personal learning exercise to explore Fyne. 
 
-<img width="331" height="284" alt="image" src="https://github.com/user-attachments/assets/99b3a043-ecb5-4f09-af13-691e4d797117" />
+<img width="338" height="294" alt="image" src="https://github.com/user-attachments/assets/a480f829-7ab9-4572-a2aa-520a295957ac" />
 
 ## Requirements
 
