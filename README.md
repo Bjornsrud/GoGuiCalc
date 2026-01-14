@@ -1,23 +1,15 @@
 # GoGuiCalc
 
 GoGuiCalc is a simple graphical calculator written in Go using the Fyne GUI toolkit.
-The project was created as a personal learning exercise to explore Go, GUI programming, and application packaging.
+The project was created as a personal learning exercise to explore Fyne. 
 
-## Features
-
-- Fully functional basic calculator
-- Decimal support
-- Clear (AC) button
-- Color-themed buttons
-- Large, readable display
-- UI implemented entirely in Fyne (v2.7.1)
+<img width="331" height="284" alt="image" src="https://github.com/user-attachments/assets/99b3a043-ecb5-4f09-af13-691e4d797117" />
 
 ## Requirements
 
 - Go 1.20 or newer
-- Windows: C compiler required. Fyne uses OpenGL bindings through CGO, so Windows builds require a working GCC toolchain. Recommended (and tested):
-TDM-GCC (64-bit)
-https://jmeubank.github.io/tdm-gcc/
+- Windows: C compiler required. Fyne uses OpenGL bindings through CGO, so Windows builds require a working GCC toolchain. 
+  Tested: TDM-GCC (64-bit) https://jmeubank.github.io/tdm-gcc/
 - CGO must be enabled
 
 ## Important
@@ -47,7 +39,7 @@ This produces GoCalculate.exe in the project root.
 
 ## License
 
-MIT License (see LICENSE file).
+MIT 
 
 ## Author
 
