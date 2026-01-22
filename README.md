@@ -24,6 +24,7 @@ replace github.com/go-gl/gl => github.com/go-gl/gl v0.0.0-20211210172815-726fda9
 When cloning the repository on a fresh machine, run:
 
 go clean -modcache
+
 go mod tidy
 
 ## Running the Application
